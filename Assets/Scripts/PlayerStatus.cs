@@ -9,8 +9,11 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] private int _decreasePassiveAmount = 3;
     [SerializeField] private float _decreaseTimer = 3;
 
+    [SerializeField] UI_Inventory uiInventory;
+
     private int currentHunger;
     private float updateTimer;
+    private Inventory playerInventory;
 
     //add here string for different statuses
     public event Action<int> onStatusChange;
@@ -21,11 +24,14 @@ public class PlayerStatus : MonoBehaviour
         //add from save file
         currentHunger = _maxHunger;
     }
-
+    private void Awake()
+    {
+        playerInventory = new Inventory();
+        uiInventory.SetInventory(playerInventory);
+    }
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(currentHunger);
         updateTimer += Time.deltaTime;
         if (updateTimer > _decreaseTimer)
         {
