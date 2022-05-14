@@ -1565,10 +1565,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652a7a4441c36fe46aed41d9814c2975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pfItemWorld: {fileID: 6693101255556289809, guid: f1299c6908065e4458c30d3b02625375, type: 3}
   woodSprite: {fileID: 2125737359283935466, guid: f7043b7291f49844b9671b3d3dedcbb5, type: 3}
   fruitSprite: {fileID: -3168733581550749585, guid: f7043b7291f49844b9671b3d3dedcbb5, type: 3}
   stoneSprite: {fileID: 5524590292671962877, guid: f7043b7291f49844b9671b3d3dedcbb5, type: 3}
   moneySprite: {fileID: 21300006, guid: 358b5d9f23bc9413e87c9948acc67ee1, type: 3}
+  woodPrefab: {fileID: 6693101255556289809, guid: f1299c6908065e4458c30d3b02625375, type: 3}
+  fruitPrefab: {fileID: 6693101255556289809, guid: b67e7abefbcde4c45a7e811412c207dd, type: 3}
+  stonePrefab: {fileID: 6693101255556289809, guid: f1299c6908065e4458c30d3b02625375, type: 3}
+  moneyPrefab: {fileID: 6693101255556289809, guid: b67e7abefbcde4c45a7e811412c207dd, type: 3}
 --- !u!4 &496706566
 Transform:
   m_ObjectHideFlags: 0

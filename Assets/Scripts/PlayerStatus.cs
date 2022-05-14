@@ -28,6 +28,11 @@ public class PlayerStatus : MonoBehaviour
     {
         playerInventory = new Inventory();
         uiInventory.SetInventory(playerInventory);
+
+        ItemWorld.SpawnItemWorld(new Vector3(0, 0, 0), new Item { type = Item.ItemType.Wood, amount = 1 });
+        ItemWorld.SpawnItemWorld(new Vector3(0, 0, 0), new Item { type = Item.ItemType.Fruit, amount = 1 });
+        ItemWorld.SpawnItemWorld(new Vector3(0, 0, 0), new Item { type = Item.ItemType.Money, amount = 1 });
+        ItemWorld.SpawnItemWorld(new Vector3(0, 0, 0), new Item { type = Item.ItemType.Stone, amount = 1 });
     }
     // Update is called once per frame
     void Update()
@@ -40,7 +45,15 @@ public class PlayerStatus : MonoBehaviour
             updateTimer = 0;
         }
     }
-   
+    private void OnTriggerEnter(Collider other)
+    {
+        ItemWorld itemWorld = other.GetComponentInParent<ItemWorld>();
+        if(itemWorld!=null)
+        {
+            playerInventory.AddItem(itemWorld.GetItem());
+            itemWorld.DestroySelf();
+        }        
+    }
     //change names and add string/enum property for changing different statuses
     public int GetCurrentHunger()
     {

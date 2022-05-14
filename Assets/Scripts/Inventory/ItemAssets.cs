@@ -9,8 +9,17 @@ public class ItemAssets : MonoBehaviour
     {
         Instance = this;
     }
+
+    public Transform pfItemWorld;
+
     public Sprite woodSprite;
     public Sprite fruitSprite;
     public Sprite stoneSprite;
     public Sprite moneySprite;
+
+
+    public Transform woodPrefab;
+    public Transform fruitPrefab;
+    public Transform stonePrefab;
+    public Transform moneyPrefab;
 }

@@ -30,4 +30,22 @@ public class Item
                 return ItemAssets.Instance.stoneSprite;
         }
     }
+    public Transform GetItemPrefab()
+    {
+        switch (type)
+        {
+            default:
+            case ItemType.Wood:
+                return ItemAssets.Instance.woodPrefab;
+            case ItemType.Fruit:
+                return ItemAssets.Instance.fruitPrefab;
+            case ItemType.Money:
+                return ItemAssets.Instance.moneyPrefab;
+            case ItemType.Stone:
+                return ItemAssets.Instance.stonePrefab;
+
+        }
+    }
+    
+    
 }
