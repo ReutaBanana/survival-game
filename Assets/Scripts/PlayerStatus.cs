@@ -9,11 +9,9 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] private int _decreasePassiveAmount = 3;
     [SerializeField] private float _decreaseTimer = 3;
 
-    [SerializeField] UI_Inventory uiInventory;
 
     private int currentHunger;
     private float updateTimer;
-    private Inventory playerInventory;
 
     //add here string for different statuses
     public event Action<int> onStatusChange;
@@ -24,16 +22,7 @@ public class PlayerStatus : MonoBehaviour
         //add from save file
         currentHunger = _maxHunger;
     }
-    private void Awake()
-    {
-        playerInventory = new Inventory();
-        uiInventory.SetInventory(playerInventory);
 
-        ItemWorld.SpawnItemWorld(new Vector3(0, 0, 0), new Item { type = Item.ItemType.Wood, amount = 1 });
-        ItemWorld.SpawnItemWorld(new Vector3(0, 0, 0), new Item { type = Item.ItemType.Fruit, amount = 1 });
-        ItemWorld.SpawnItemWorld(new Vector3(0, 0, 0), new Item { type = Item.ItemType.Money, amount = 1 });
-        ItemWorld.SpawnItemWorld(new Vector3(0, 0, 0), new Item { type = Item.ItemType.Stone, amount = 1 });
-    }
     // Update is called once per frame
     void Update()
     {
@@ -45,15 +34,7 @@ public class PlayerStatus : MonoBehaviour
             updateTimer = 0;
         }
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        ItemWorld itemWorld = other.GetComponentInParent<ItemWorld>();
-        if(itemWorld!=null)
-        {
-            playerInventory.AddItem(itemWorld.GetItem());
-            itemWorld.DestroySelf();
-        }        
-    }
+
     //change names and add string/enum property for changing different statuses
     public int GetCurrentHunger()
     {

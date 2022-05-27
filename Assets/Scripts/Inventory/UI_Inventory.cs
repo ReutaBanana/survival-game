@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,25 +7,33 @@ using UnityEngine.UI;
 public class UI_Inventory : MonoBehaviour
 {
     private Inventory inventory;
-    private Transform itemSlotContainer;
-    private Transform itemSlotTemplate;
+    [SerializeField] private Transform itemSlotContainer;
+    [SerializeField] private Transform itemSlotTemplate;
+
+    [SerializeField] private GameObject inventoryUI;
+    [SerializeField] private PlayerInteraction interaction;
     public void SetInventory (Inventory inventory)
     {
         this.inventory = inventory;
-        inventory.OnItemListChanged += Inventory_OnItemListChanged1; ;
-        RefreshInventoryItems();
+        interaction.onInventoryClick += ShowInventory;
     }
 
-    private void Inventory_OnItemListChanged1()
+    private void ShowInventory(bool isOpen)
     {
         RefreshInventoryItems();
+        switch (isOpen)
+        {            
+            case true:
+                inventoryUI.SetActive(true);
+                break;
+            default:
+            case false:
+                inventoryUI.SetActive(false);
+                break;      
+        }
     }
 
-    private void Awake()
-    {
-        itemSlotContainer = transform.Find("itemSlotContainer");
-        itemSlotTemplate = itemSlotContainer.Find("itemSlotTemplate");
-    }
+   
     private void RefreshInventoryItems()
     {
         foreach (Transform transform in itemSlotContainer)
