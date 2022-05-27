@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class UIUpdater : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class UIUpdater : MonoBehaviour
 
     [Header("Interactions")]
     [SerializeField] private GameObject _treeInteractionPopup;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,9 +33,10 @@ public class UIUpdater : MonoBehaviour
             case interactionType.Tree:
                 if (activeInteraction)
                     _treeInteractionPopup.SetActive(true);
+
                 else
                     _treeInteractionPopup.SetActive(false);
-                break;
+                    break;
             case interactionType.Rock:
                 break;
             default:

@@ -70,11 +70,14 @@ public class PlayerInteraction : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
+
         if (other.CompareTag("Interactable"))
         {
             InteractableObject objectScript = other.GetComponentInParent<InteractableObject>();
             objectScript.PlayerTrigger(false);
         }
+
+
     }
 
 }

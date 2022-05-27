@@ -11,7 +11,7 @@ public enum interactionType
 }
 
 
-public  class InteractableObject:MonoBehaviour
+public class InteractableObject : MonoBehaviour
 {
     [SerializeField] private interactionType type;
     [SerializeField] private UIUpdater uiScript;
@@ -19,7 +19,8 @@ public  class InteractableObject:MonoBehaviour
     private int hitCount;
     private InteractionConfiguration InteractionConfiguration;
     private Animator animator;
-    private void Awake()
+
+    private void Start()
     {
         InteractionConfiguration = InteractionConfiguration.instance;
         animator = this.GetComponent<Animator>();
@@ -30,7 +31,7 @@ public  class InteractableObject:MonoBehaviour
         {
             case interactionType.Tree:
                 InstantiatePrefab(InteractionConfiguration.woodPrefab);
-                    break;
+                break;
             case interactionType.Rock:
                 break;
             default:
@@ -38,13 +39,10 @@ public  class InteractableObject:MonoBehaviour
         }
 
     }
-    private void AnimateInteraction()
-    {
-        
-    }
+
     public void PlayerTrigger(bool isActive)
     {
-        uiScript.InteractionScreenPopup(type,isActive);
+        uiScript.InteractionScreenPopup(type, isActive);
     }
 
     private void InstantiatePrefab(GameObject prefab)
@@ -52,11 +50,17 @@ public  class InteractableObject:MonoBehaviour
         int xDistance = 5;
         int zDistance = 7;
         float fSpacing = 0.5f;
+        Transform parentObjectTransform = this.GetComponentInParent<Transform>();
         GameObject objectPrefab = Instantiate(prefab);
-        objectPrefab.transform.parent = transform;
+        objectPrefab.transform.parent = parentObjectTransform;
         objectPrefab.transform.localPosition = new Vector3(xDistance, 0, zDistance) * fSpacing;
         objectPrefab.transform.rotation = Quaternion.Euler(0, 0, 0);
-        objectPrefab.name = type.ToString() + xDistance +"," + zDistance;
+        objectPrefab.name = type.ToString() + xDistance + "," + zDistance;
+        objectPrefab.transform.parent = null;
+        objectPrefab.transform.localScale = (new Vector3(1, 1, 1));
+
+        this.transform.position = (new Vector3(0, -100));
+        Destroy(this.gameObject, 30);
     }
 
     public void Interact()
@@ -78,13 +82,15 @@ public  class InteractableObject:MonoBehaviour
     {
         if (hitCount == configureCount)
         {
-            Action();
-            hitCount = 0;
+            animator.SetBool("isFall", true);
+            PlayerTrigger(false);
         }
     }
-    public void resetAnimatorValue(string valueName)
+
+    private void resetAnimatorValue(string valueName)
     {
-       animator.SetBool(valueName, false);
+        animator.SetBool(valueName, false);
 
     }
+
 }
