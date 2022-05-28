@@ -14,8 +14,6 @@ public class Item
 
     public ItemType type;
     public int amount;
-    public bool hasInventoryInstance = false;
-
     public bool GetIsStackable()
     {
         switch (type)
@@ -64,29 +62,10 @@ public class Item
                 return ItemAssets.Instance.stoneSprite;
         }
     }
-    public Transform GetItemPrefab()
-    {
-        switch (type)
-        {
-            default:
-            case ItemType.Wood:
-                return ItemAssets.Instance.woodPrefab;
-            case ItemType.Fruit:
-                return ItemAssets.Instance.fruitPrefab;
-            case ItemType.Money:
-                return ItemAssets.Instance.moneyPrefab;
-            case ItemType.Stone:
-                return ItemAssets.Instance.stonePrefab;
-
-        }
-    }
     
     public void AddAmount(int amount)
     {
         this.amount += amount;
     }
-    public void SetInventoryInstance()
-    {
-        hasInventoryInstance = true;
-    }
+   
 }

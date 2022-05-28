@@ -2,21 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public enum interactionType
 {
     Tree,
-    Rock
+    StoneCollect,
+    StoneDig
 }
 
 
 public class InteractableObject : MonoBehaviour
 {
     [SerializeField] private interactionType type;
-    [SerializeField] private UIUpdater uiScript;
+    [SerializeField] private int desiredAmount;
 
     private int hitCount;
+    private UIUpdater uiScript;
     private InteractionConfiguration InteractionConfiguration;
     private Animator animator;
 
@@ -24,6 +25,7 @@ public class InteractableObject : MonoBehaviour
     {
         InteractionConfiguration = InteractionConfiguration.instance;
         animator = this.GetComponent<Animator>();
+        uiScript = GameObject.Find("Canvas").GetComponent<UIUpdater>();
     }
     public void Action()
     {
@@ -32,7 +34,11 @@ public class InteractableObject : MonoBehaviour
             case interactionType.Tree:
                 InstantiatePrefab(InteractionConfiguration.woodPrefab);
                 break;
-            case interactionType.Rock:
+            case interactionType.StoneCollect:
+                InstantiatePrefab(InteractionConfiguration.stonePrefab);
+                break;
+            case interactionType.StoneDig:
+                InstantiatePrefab(InteractionConfiguration.stonePrefab);
                 break;
             default:
                 break;
@@ -58,6 +64,8 @@ public class InteractableObject : MonoBehaviour
         objectPrefab.name = type.ToString() + xDistance + "," + zDistance;
         objectPrefab.transform.parent = null;
         objectPrefab.transform.localScale = (new Vector3(1, 1, 1));
+        ItemWorld objectPrefabScript = objectPrefab.GetComponent<ItemWorld>();
+        objectPrefabScript.amount = desiredAmount;
 
         this.transform.position = (new Vector3(0, -100));
         Destroy(this.gameObject, 30);
@@ -72,7 +80,12 @@ public class InteractableObject : MonoBehaviour
                 animator.SetBool("isHit", true);
                 CheckForAction(InteractionConfiguration.woodHitCount);
                 break;
-            case interactionType.Rock:
+            case interactionType.StoneCollect:
+                Action();
+                break;
+            case interactionType.StoneDig:
+                hitCount++;
+                CheckForAction(InteractionConfiguration.stoneHitCount);
                 break;
             default:
                 break;
@@ -82,8 +95,15 @@ public class InteractableObject : MonoBehaviour
     {
         if (hitCount == configureCount)
         {
-            animator.SetBool("isFall", true);
-            PlayerTrigger(false);
+            if (animator != null)
+            {
+                animator.SetBool("isFall", true);
+                PlayerTrigger(false);
+            }
+            else
+            { Action();
+            }
+          
         }
     }
 

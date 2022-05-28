@@ -23,7 +23,6 @@ public class Inventory
         if (hasInventoryInstance[item.type]==false)
         {
             inventoryItems.Add(item);
-            item.SetInventoryInstance();
             hasInventoryInstance[item.type] = true;
         }
         else
@@ -35,28 +34,34 @@ public class Inventory
 
     private void CheckIfStackable(Item item)
     {
+        var itemsToAdd = new List<Item>();
+
         if (item.GetIsStackable())
         {
             foreach (Item inventoryItem in inventoryItems)
             {
                 if (inventoryItem.type == item.type)
                 {
-                    if (item.amount < item.GetMaxAmount())
+                    if (inventoryItem.amount+ item.amount < item.GetMaxAmount())
                     {
                         inventoryItem.AddAmount(item.amount);
                     }
+                    else
+                    {
+                        inventoryItem.AddAmount(item.GetMaxAmount()- inventoryItem.amount);
+                        item.amount = item.GetMaxAmount() - item.amount;
+                        itemsToAdd.Add(item);
+                    }
                 }
-                else
-                {
-                    inventoryItems.Add(item);
-                }
+
             }
+            inventoryItems.AddRange(itemsToAdd);
         }
         else
         {
             inventoryItems.Add(item);
         }
-
+      
     }
 
     public List<Item> GetInventoryItemsList()

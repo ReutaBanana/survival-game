@@ -16,10 +16,4 @@ public class ItemAssets : MonoBehaviour
     public Sprite fruitSprite;
     public Sprite stoneSprite;
     public Sprite moneySprite;
-
-
-    public Transform woodPrefab;
-    public Transform fruitPrefab;
-    public Transform stonePrefab;
-    public Transform moneyPrefab;
 }

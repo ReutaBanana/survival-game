@@ -7,11 +7,14 @@ public class InteractionConfiguration : MonoBehaviour
     public static InteractionConfiguration instance = null;
 
     [Header("Prefabs")]
-    [SerializeField] public GameObject woodPrefab;
+    public GameObject woodPrefab;
+    public GameObject stonePrefab;
+
 
 
     [Header("HitConfiguration")]
-    [SerializeField] public int woodHitCount;
+    public int woodHitCount;
+    public int stoneHitCount;
 
     private void Awake()
     {

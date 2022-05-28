@@ -14,6 +14,8 @@ public class UIUpdater : MonoBehaviour
 
     [Header("Interactions")]
     [SerializeField] private GameObject _treeInteractionPopup;
+    [SerializeField] private GameObject _stoneCollectInteractionPopup;
+    [SerializeField] private GameObject _stoneDigInteractionPopup;
 
     // Start is called before the first frame update
     void Start()
@@ -31,16 +33,25 @@ public class UIUpdater : MonoBehaviour
         switch (type)
         {
             case interactionType.Tree:
-                if (activeInteraction)
-                    _treeInteractionPopup.SetActive(true);
-
-                else
-                    _treeInteractionPopup.SetActive(false);
-                    break;
-            case interactionType.Rock:
+                TogglePopup(activeInteraction,_treeInteractionPopup);
+                break;
+            case interactionType.StoneCollect:
+                TogglePopup(activeInteraction, _stoneCollectInteractionPopup);
+                break;
+            case interactionType.StoneDig:
+                TogglePopup(activeInteraction, _stoneDigInteractionPopup);
                 break;
             default:
                 break;
         }
+    }
+
+    private void TogglePopup(bool activeInteraction,GameObject interactionType)
+    {
+        if (activeInteraction)
+            interactionType.SetActive(true);
+
+        else
+            interactionType.SetActive(false);
     }
 }
