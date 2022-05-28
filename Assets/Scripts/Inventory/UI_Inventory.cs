@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UI_Inventory : MonoBehaviour
 {
@@ -49,6 +50,7 @@ public class UI_Inventory : MonoBehaviour
         foreach (Item item in inventory.GetInventoryItemsList())
         {
             RectTransform itemSlotRectTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
+
             itemSlotRectTransform.gameObject.SetActive(true);
             itemSlotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y*itemSlotCellSize);
             Image image =itemSlotRectTransform.Find("Image").GetComponent<Image>();
@@ -60,6 +62,15 @@ public class UI_Inventory : MonoBehaviour
             {
                 x = 0;
                 y++;
+            }
+
+            if (item.GetIsStackable() && item.amount > 1)
+            {
+                Transform uiStackable = itemSlotRectTransform.Find("objectCount");
+                uiStackable.GetComponent<Image>().enabled= true;
+                uiStackable.Find("objectCountTxt").GetComponent<TextMeshProUGUI>().text = item.amount.ToString();
+                uiStackable.Find("objectCountTxt").GetComponent<TextMeshProUGUI>().enabled = true;
+
             }
         }
     }

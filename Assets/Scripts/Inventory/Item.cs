@@ -14,7 +14,41 @@ public class Item
 
     public ItemType type;
     public int amount;
+    public bool hasInventoryInstance = false;
 
+    public bool GetIsStackable()
+    {
+        switch (type)
+        {
+            case ItemType.Wood:
+                return true;
+            case ItemType.Fruit:
+                return true;
+            case ItemType.Money:
+                return true;
+            case ItemType.Stone:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public int GetMaxAmount()
+    {
+        switch (type)
+        {
+            case ItemType.Wood:
+                return 30;
+            case ItemType.Fruit:
+                return 15;
+            case ItemType.Money:
+                return 10;
+            case ItemType.Stone:
+                return 30 ;
+            default:
+                return 0;
+        }
+    }
     public Sprite GetSprite()
     {
         switch (type)
@@ -47,5 +81,12 @@ public class Item
         }
     }
     
-    
+    public void AddAmount(int amount)
+    {
+        this.amount += amount;
+    }
+    public void SetInventoryInstance()
+    {
+        hasInventoryInstance = true;
+    }
 }
