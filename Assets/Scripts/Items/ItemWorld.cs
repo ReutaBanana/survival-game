@@ -9,7 +9,7 @@ public class ItemWorld : MonoBehaviour
 
     public Item GetItem()
     {
-        return new Item{ type = itemType, amount = amount};
+        return new Item(itemType,amount);
     }
     public void DestroySelf()
     {

@@ -12,6 +12,7 @@ public class PlayerInventory : MonoBehaviour
         playerInventory = new Inventory();
         uiInventory.SetInventory(playerInventory);
     }
+
     private void OnTriggerEnter(Collider other)
     {
         ItemWorld itemWorld = other.GetComponentInParent<ItemWorld>();
@@ -20,5 +21,10 @@ public class PlayerInventory : MonoBehaviour
             playerInventory.AddItem(itemWorld.GetItem());
             itemWorld.DestroySelf();
         }
+    }
+
+    public Inventory GetInventory()
+    {
+        return playerInventory;
     }
 }

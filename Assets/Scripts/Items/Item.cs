@@ -9,11 +9,19 @@ public class Item
         Wood,
         Fruit,
         Money,
-        Stone
+        Stone,
+        Axe
     }
 
     public ItemType type;
     public int amount;
+
+    public Item(ItemType type, int amount)
+    {
+        this.type = type;
+        this.amount = amount;
+    }
+
     public bool GetIsStackable()
     {
         switch (type)
@@ -26,6 +34,8 @@ public class Item
                 return true;
             case ItemType.Stone:
                 return true;
+            case ItemType.Axe:
+                return false;
             default:
                 return false;
         }
@@ -60,6 +70,8 @@ public class Item
                 return ItemAssets.Instance.moneySprite;
             case ItemType.Stone:
                 return ItemAssets.Instance.stoneSprite;
+            case ItemType.Axe:
+                return ItemAssets.Instance.axeSprite;
         }
     }
     

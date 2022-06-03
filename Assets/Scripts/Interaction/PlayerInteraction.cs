@@ -11,16 +11,29 @@ public class PlayerInteraction : MonoBehaviour
     public event Action<bool> onInventoryClick;
     private StarterAssetsInputs _input;
     private InteractableObject objectScript;
+    private CraftingAction crafting;
 
     private void Awake()
     {
         _input = GetComponent<StarterAssetsInputs>();
+        crafting = GameObject.Find("GameMananger").GetComponent<CraftingAction>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         OpenInventory();
+        DebugCrafting();
+    }
+
+    private void DebugCrafting()
+    {
+        if (_input.playerCrafting)
+        {
+            crafting.Craft(RecepieType.AxeRecipe);
+            _input.playerCrafting = false;
+        }
     }
 
     private void OpenInventory()

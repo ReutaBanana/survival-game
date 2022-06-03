@@ -8,22 +8,25 @@ public class Inventory
     public event Action OnItemListChanged;
 
     private List<Item> inventoryItems;
-    private Dictionary<Item.ItemType, bool> hasInventoryInstance = new Dictionary<Item.ItemType, bool>();
+    
+    private Dictionary<Item.ItemType, bool> hasUiInventoryInstance = new Dictionary<Item.ItemType, bool>();
 
     public Inventory()
     {
         inventoryItems = new List<Item>();
-        hasInventoryInstance.Add(Item.ItemType.Wood, false);
-        hasInventoryInstance.Add(Item.ItemType.Stone, false);
-        hasInventoryInstance.Add(Item.ItemType.Fruit, false);
-        hasInventoryInstance.Add(Item.ItemType.Money, false);
+        hasUiInventoryInstance.Add(Item.ItemType.Wood, false);
+        hasUiInventoryInstance.Add(Item.ItemType.Stone, false);
+        hasUiInventoryInstance.Add(Item.ItemType.Fruit, false);
+        hasUiInventoryInstance.Add(Item.ItemType.Money, false); 
+        hasUiInventoryInstance.Add(Item.ItemType.Axe, false);
+
     }
     public void AddItem(Item item)
     {
-        if (hasInventoryInstance[item.type]==false)
+        if (hasUiInventoryInstance[item.type]==false)
         {
             inventoryItems.Add(item);
-            hasInventoryInstance[item.type] = true;
+            hasUiInventoryInstance[item.type] = true;
         }
         else
         {
@@ -32,6 +35,33 @@ public class Inventory
        OnItemListChanged?.Invoke();
     }
 
+    public void RemoveItem(List<Item> recipie)
+    {
+        foreach (Item recipieItem in recipie)
+        {
+            foreach (Item item in inventoryItems)
+            {
+                if (recipieItem.type == item.type)
+                {
+                    item.amount -= recipieItem.amount;
+                }
+            }
+        }
+        OnItemListChanged?.Invoke();
+
+    }
+
+    public bool CheckIfExsist(Item recipieItem)
+    {
+        foreach (Item item in inventoryItems)
+        {
+            if( recipieItem.type == item.type && recipieItem.amount<= item.amount)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     private void CheckIfStackable(Item item)
     {
         var itemsToAdd = new List<Item>();

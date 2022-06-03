@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
@@ -12,6 +13,7 @@ public class StarterAssetsInputs : MonoBehaviour
     public bool sprint;
     public bool openInventory;
     public bool playerInteract;
+    public bool playerCrafting;
 
     [Header("Movement Settings")]
     public bool analogMovement;
@@ -57,6 +59,13 @@ public class StarterAssetsInputs : MonoBehaviour
         InteractInput(value.isPressed);
 
     }
+    public void OnCrafting(InputValue value)
+    {
+        CraftingInput(value.isPressed);
+
+    }
+
+
 
 #else
 	// old input sys if we do decide to have it (most likely wont)...
@@ -90,6 +99,11 @@ public class StarterAssetsInputs : MonoBehaviour
     public void InteractInput(bool newInteractState)
     {
         playerInteract = newInteractState;
+    }
+
+    private void CraftingInput(bool newCraftingState)
+    {
+        playerCrafting = newCraftingState;
     }
 
 #if !UNITY_IOS || !UNITY_ANDROID
