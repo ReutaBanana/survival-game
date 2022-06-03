@@ -12,7 +12,6 @@ public class CraftingRecipes: MonoBehaviour
 
    
     private List<Item> axeRecepie = new List<Item>();
-    private  Item AxeItem = new Item(Item.ItemType.Axe,1);
 
     private void Awake()
     {
@@ -37,8 +36,8 @@ public class CraftingRecipes: MonoBehaviour
 
     public void CreateRecipes()
     {
-        axeRecepie.Add(new Item(Item.ItemType.Wood, 3));
-        axeRecepie.Add(new Item(Item.ItemType.Stone, 2));
+        axeRecepie.Add(new Item(ItemType.Wood, 3));
+        axeRecepie.Add(new Item(ItemType.Stone, 2));
     
     }
 
@@ -58,7 +57,7 @@ public class CraftingRecipes: MonoBehaviour
         switch (recepieType)
         {
             case RecepieType.AxeRecipe:
-                return AxeItem;
+                return new Item(ItemType.Axe, 1);
             default:
                 return null;
         }

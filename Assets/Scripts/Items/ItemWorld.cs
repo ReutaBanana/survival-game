@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemWorld : MonoBehaviour
 {
-    public Item.ItemType itemType;
+    public ItemType itemType;
     public int amount;
 
     public Item GetItem()

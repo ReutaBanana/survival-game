@@ -5,20 +5,18 @@ using System;
 
 public class Inventory
 {
-    public event Action OnItemListChanged;
-
-    private List<Item> inventoryItems;
+    public List<Item> inventoryItems;
     
-    private Dictionary<Item.ItemType, bool> hasUiInventoryInstance = new Dictionary<Item.ItemType, bool>();
+    private Dictionary<ItemType, bool> hasUiInventoryInstance = new Dictionary<ItemType, bool>();
 
     public Inventory()
     {
         inventoryItems = new List<Item>();
-        hasUiInventoryInstance.Add(Item.ItemType.Wood, false);
-        hasUiInventoryInstance.Add(Item.ItemType.Stone, false);
-        hasUiInventoryInstance.Add(Item.ItemType.Fruit, false);
-        hasUiInventoryInstance.Add(Item.ItemType.Money, false); 
-        hasUiInventoryInstance.Add(Item.ItemType.Axe, false);
+        hasUiInventoryInstance.Add(ItemType.Wood, false);
+        hasUiInventoryInstance.Add(ItemType.Stone, false);
+        hasUiInventoryInstance.Add(ItemType.Fruit, false);
+        hasUiInventoryInstance.Add(ItemType.Money, false); 
+        hasUiInventoryInstance.Add(ItemType.Axe, false);
 
     }
     public void AddItem(Item item)
@@ -32,11 +30,29 @@ public class Inventory
         {
             CheckIfStackable(item);
         }
-       OnItemListChanged?.Invoke();
     }
 
-    public void RemoveItem(List<Item> recipie)
+    public void DestroyUsedToolsInInventory()
     {
+        List<Item> removedItems = new List<Item>();
+
+        foreach (Item item in inventoryItems)
+        {
+            if (item.toolDurability == 0)
+            {
+                removedItems.Add(item);
+            }
+        }
+        foreach (Item item in removedItems)
+        {
+            inventoryItems.Remove(item);
+        }
+    }
+
+    public void RemoveItems(List<Item> recipie)
+    {
+        List<Item> removedItems = new List<Item>();
+
         foreach (Item recipieItem in recipie)
         {
             foreach (Item item in inventoryItems)
@@ -44,11 +60,17 @@ public class Inventory
                 if (recipieItem.type == item.type)
                 {
                     item.amount -= recipieItem.amount;
+                    if(item.amount==0)
+                    {
+                        removedItems.Add(item);
+                    }
                 }
             }
         }
-        OnItemListChanged?.Invoke();
-
+        foreach (Item item in removedItems)
+        {
+            inventoryItems.Remove(item);
+        }
     }
 
     public bool CheckIfExsist(Item recipieItem)
@@ -92,6 +114,21 @@ public class Inventory
             inventoryItems.Add(item);
         }
       
+    }
+
+    public List<Item> GetTools()
+    {
+        List<Item> result = new List<Item>();
+        foreach (Item item in inventoryItems)
+        {
+            if (item.isTool)
+            {
+                result.Add(item);
+            }
+        }
+
+        //result will contain duplicate values if there are exist whitin inventory
+        return result;
     }
 
     public List<Item> GetInventoryItemsList()

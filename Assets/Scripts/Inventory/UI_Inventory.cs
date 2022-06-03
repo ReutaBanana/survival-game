@@ -19,9 +19,13 @@ public class UI_Inventory : MonoBehaviour
         interaction.onInventoryClick += ShowInventory;
     }
 
-    private void ShowInventory(bool isOpen)
+    private void Update()
     {
         RefreshInventoryItems();
+    }
+
+    private void ShowInventory(bool isOpen)
+    {
         switch (isOpen)
         {            
             case true:
@@ -34,7 +38,7 @@ public class UI_Inventory : MonoBehaviour
         }
     }
 
-   
+  
     private void RefreshInventoryItems()
     {
         foreach (Transform transform in itemSlotContainer)
@@ -61,7 +65,7 @@ public class UI_Inventory : MonoBehaviour
             if(x>3)
             {
                 x = 0;
-                y++;
+                y--;
             }
 
             if (item.GetIsStackable() && item.amount > 1)

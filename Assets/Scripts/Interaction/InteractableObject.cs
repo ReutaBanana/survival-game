@@ -20,12 +20,15 @@ public class InteractableObject : MonoBehaviour
     private UIUpdater uiScript;
     private InteractionConfiguration InteractionConfiguration;
     private Animator animator;
+    private ItemType interactDependeny;
+    private bool isInteractDependeny;
 
     private void Start()
     {
         InteractionConfiguration = InteractionConfiguration.instance;
         animator = this.GetComponent<Animator>();
         uiScript = GameObject.Find("Canvas").GetComponent<UIUpdater>();
+        SetInteractDependency();
     }
     public void Action()
     {
@@ -45,6 +48,44 @@ public class InteractableObject : MonoBehaviour
         }
 
     }
+
+    private void SetInteractDependency()
+    {
+        switch (type)
+        {
+            case interactionType.Tree:
+                interactDependeny = ItemType.Axe;
+                isInteractDependeny = true;
+                break;
+            case interactionType.StoneCollect:
+                isInteractDependeny = false;
+                break;
+            case interactionType.StoneDig:
+                break;
+            default:
+                break;
+        }
+    }
+
+    public Item GetToolIfAvailable(PlayerInventory playerInventory)
+    {
+        if (isInteractDependeny == false)
+        {
+            return null;
+        }
+
+        List<Item> inventoryTools = playerInventory.GetInventory().GetTools();
+        foreach (Item item in inventoryTools)
+        {
+            if(item.type==interactDependeny)
+            {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
 
     public void PlayerTrigger(bool isActive)
     {
@@ -112,5 +153,8 @@ public class InteractableObject : MonoBehaviour
         animator.SetBool(valueName, false);
 
     }
-
+    public bool GetInteractDependency()
+    {
+        return isInteractDependeny;
+    }
 }

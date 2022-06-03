@@ -2,26 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ItemType
+{
+    //base items
+    Wood,
+    Fruit,
+    Money,
+    Stone,
+    //crafted items
+    Axe
+}
 public class Item 
 {
-    public enum ItemType
-    {
-        Wood,
-        Fruit,
-        Money,
-        Stone,
-        Axe
-    }
-
     public ItemType type;
     public int amount;
+    public bool isTool;
+    public int toolDurability;
+
 
     public Item(ItemType type, int amount)
     {
         this.type = type;
         this.amount = amount;
+        SetIsTool();
     }
-
+    
     public bool GetIsStackable()
     {
         switch (type)
@@ -40,7 +45,41 @@ public class Item
                 return false;
         }
     }
+    public void SetIsTool()
+    {
+        switch (type)
+        {
+            case ItemType.Axe:
+                isTool = true;
+                toolDurability = 3;
+                break;
+            default:
+                isTool = false;
+                toolDurability = -1;
+                break;
+        }
+    }
 
+    public void DecreseDurability()
+    {
+        toolDurability--;
+    }
+
+    public bool IsAbliageForHit()
+    {
+        if (isTool&&toolDurability>0)
+        {
+            return true;
+        }
+        else if(isTool&&toolDurability==0)
+        {
+            return false;
+        }
+
+        return true;
+        
+
+    }
     public int GetMaxAmount()
     {
         switch (type)

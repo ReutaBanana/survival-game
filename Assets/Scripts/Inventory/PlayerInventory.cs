@@ -12,6 +12,10 @@ public class PlayerInventory : MonoBehaviour
         playerInventory = new Inventory();
         uiInventory.SetInventory(playerInventory);
     }
+    private void Update()
+    {
+        playerInventory.DestroyUsedToolsInInventory();
+    }
 
     private void OnTriggerEnter(Collider other)
     {

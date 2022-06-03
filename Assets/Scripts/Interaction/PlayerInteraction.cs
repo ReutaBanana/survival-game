@@ -9,15 +9,21 @@ public class PlayerInteraction : MonoBehaviour
 {
     private bool isClicked;
     public event Action<bool> onInventoryClick;
+
     private StarterAssetsInputs _input;
     private InteractableObject objectScript;
     private CraftingAction crafting;
+    private PlayerInventory inventory;
+    private Item interactTool;
+
+    private Animator playerAnimator;
 
     private void Awake()
     {
         _input = GetComponent<StarterAssetsInputs>();
         crafting = GameObject.Find("GameMananger").GetComponent<CraftingAction>();
-
+        inventory = this.GetComponent<PlayerInventory>();
+        playerAnimator = this.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -61,36 +67,50 @@ public class PlayerInteraction : MonoBehaviour
         if (other.CompareTag("Interactable"))
         {
             objectScript = other.GetComponentInParent<InteractableObject>();
-            objectScript.PlayerTrigger(true);
+            interactTool = objectScript.GetToolIfAvailable(inventory);
 
-            
-
+            if (WantsToInteract())
+            {
+                objectScript.PlayerTrigger(true);
+            }
         }
     }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Interactable"))
         {
             objectScript = other.GetComponentInParent<InteractableObject>();
+            interactTool = objectScript.GetToolIfAvailable(inventory);
 
-            if (_input.playerInteract)
+            if ( _input.playerInteract)
             {
                 _input.playerInteract = false;
 
-                objectScript.Interact();
+                if (WantsToInteract())
+                {
+                    objectScript.Interact();
+                    playerAnimator.SetTrigger("ChopTree");
+                    if (interactTool != null)
+                        interactTool.DecreseDurability();
+                }
+
             }
         }
     }
+
+    private bool WantsToInteract()
+    {
+        return (interactTool != null && interactTool.IsAbliageForHit()) || !objectScript.GetInteractDependency();
+    }
+
     private void OnTriggerExit(Collider other)
     {
-
         if (other.CompareTag("Interactable"))
         {
             InteractableObject objectScript = other.GetComponentInParent<InteractableObject>();
             objectScript.PlayerTrigger(false);
         }
-
-
     }
 
 }
