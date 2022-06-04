@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum RecepieType
+public enum CraftingRecepieType
 {
     AxeRecipe
 }
@@ -41,22 +41,22 @@ public class CraftingRecipes: MonoBehaviour
     
     }
 
-    public List<Item> GetRecipie(RecepieType recipieType)
+    public List<Item> GetRecipie(CraftingRecepieType recipieType)
     {
         switch (recipieType)
         {
-            case RecepieType.AxeRecipe:
+            case CraftingRecepieType.AxeRecipe:
                 return axeRecepie;
             default:
                 return null;
         }
     }
 
-    public Item GetCraftedItem(RecepieType recepieType)
+    public Item GetCraftedItem(CraftingRecepieType recepieType)
     {
         switch (recepieType)
         {
-            case RecepieType.AxeRecipe:
+            case CraftingRecepieType.AxeRecipe:
                 return new Item(ItemType.Axe, 1);
             default:
                 return null;

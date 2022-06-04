@@ -9,6 +9,7 @@ public class InteractionConfiguration : MonoBehaviour
     [Header("Prefabs")]
     public GameObject woodPrefab;
     public GameObject stonePrefab;
+    public GameObject firePrefab;
 
 
 

@@ -13,6 +13,8 @@ public class PlayerInteraction : MonoBehaviour
     private StarterAssetsInputs _input;
     private InteractableObject objectScript;
     private CraftingAction crafting;
+    private InstaniateObjects building;
+
     private PlayerInventory inventory;
     private Item interactTool;
 
@@ -22,6 +24,8 @@ public class PlayerInteraction : MonoBehaviour
     {
         _input = GetComponent<StarterAssetsInputs>();
         crafting = GameObject.Find("GameMananger").GetComponent<CraftingAction>();
+        building = GameObject.Find("GameMananger").GetComponent<InstaniateObjects>();
+
         inventory = this.GetComponent<PlayerInventory>();
         playerAnimator = this.GetComponent<Animator>();
     }
@@ -31,13 +35,25 @@ public class PlayerInteraction : MonoBehaviour
     {
         OpenInventory();
         DebugCrafting();
+        BuildItems();
+        building.CreateWaitingObject();
+    }
+
+    private void BuildItems()
+    {
+        if (_input.leftClickButton)
+        {
+            building.Build();
+            Debug.Log("Build Here");
+            _input.leftClickButton = false;
+        }
     }
 
     private void DebugCrafting()
     {
         if (_input.playerCrafting)
         {
-            crafting.Craft(RecepieType.AxeRecipe);
+            crafting.Craft(CraftingRecepieType.AxeRecipe);
             _input.playerCrafting = false;
         }
     }

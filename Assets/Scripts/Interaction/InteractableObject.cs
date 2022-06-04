@@ -5,9 +5,10 @@ using UnityEngine;
 
 public enum interactionType
 {
-    Tree,
+    ChopTree,
     StoneCollect,
-    StoneDig
+    StoneDig,
+    LightCamfire
 }
 
 
@@ -34,7 +35,7 @@ public class InteractableObject : MonoBehaviour
     {
         switch (type)
         {
-            case interactionType.Tree:
+            case interactionType.ChopTree:
                 InstantiatePrefab(InteractionConfiguration.woodPrefab);
                 break;
             case interactionType.StoneCollect:
@@ -42,6 +43,9 @@ public class InteractableObject : MonoBehaviour
                 break;
             case interactionType.StoneDig:
                 InstantiatePrefab(InteractionConfiguration.stonePrefab);
+                break;
+            case interactionType.LightCamfire:
+                InstantiatePrefab(InteractionConfiguration.firePrefab);
                 break;
             default:
                 break;
@@ -53,7 +57,7 @@ public class InteractableObject : MonoBehaviour
     {
         switch (type)
         {
-            case interactionType.Tree:
+            case interactionType.ChopTree:
                 interactDependeny = ItemType.Axe;
                 isInteractDependeny = true;
                 break;
@@ -61,6 +65,9 @@ public class InteractableObject : MonoBehaviour
                 isInteractDependeny = false;
                 break;
             case interactionType.StoneDig:
+                break;
+            case interactionType.LightCamfire:
+                isInteractDependeny = false;
                 break;
             default:
                 break;
@@ -107,7 +114,7 @@ public class InteractableObject : MonoBehaviour
         objectPrefab.transform.localScale = (new Vector3(1, 1, 1));
         ItemWorld objectPrefabScript = objectPrefab.GetComponent<ItemWorld>();
         objectPrefabScript.amount = desiredAmount;
-
+       
         this.transform.position = (new Vector3(0, -100));
         Destroy(this.gameObject, 30);
     }
@@ -116,7 +123,7 @@ public class InteractableObject : MonoBehaviour
     {
         switch (type)
         {
-            case interactionType.Tree:
+            case interactionType.ChopTree:
                 hitCount++;
                 animator.SetBool("isHit", true);
                 CheckForAction(InteractionConfiguration.woodHitCount);
@@ -127,6 +134,9 @@ public class InteractableObject : MonoBehaviour
             case interactionType.StoneDig:
                 hitCount++;
                 CheckForAction(InteractionConfiguration.stoneHitCount);
+                break;
+            case interactionType.LightCamfire:
+                Action();
                 break;
             default:
                 break;

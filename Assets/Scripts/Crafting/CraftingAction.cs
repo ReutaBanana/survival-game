@@ -12,7 +12,7 @@ public class CraftingAction : MonoBehaviour
         craftingRecipes = CraftingRecipes.instance;
         craftingRecipes = this.GetComponent<CraftingRecipes>();
     }
-    public void Craft(RecepieType recipieType)
+    public void Craft(CraftingRecepieType recipieType)
     {
 
         List<Item> recipe = craftingRecipes.GetRecipie(recipieType);

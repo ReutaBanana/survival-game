@@ -6,14 +6,20 @@ using UnityEngine.InputSystem;
 
 public class StarterAssetsInputs : MonoBehaviour
 {
+    public Camera mainCamera;
     [Header("Character Input Values")]
+
+   
+
     public Vector2 move;
     public Vector2 look;
+    public Vector2 mousePosition;
     public bool jump;
     public bool sprint;
     public bool openInventory;
     public bool playerInteract;
     public bool playerCrafting;
+    public bool leftClickButton;
 
     [Header("Movement Settings")]
     public bool analogMovement;
@@ -64,6 +70,15 @@ public class StarterAssetsInputs : MonoBehaviour
         CraftingInput(value.isPressed);
 
     }
+    public void OnLeftClick(InputValue value)
+    {
+        LeftClickInput(value.isPressed);
+
+    }
+    public void OnMousePosition(InputValue value)
+    {
+        mousePosition = mainCamera.ScreenToWorldPoint(value.Get<Vector2>());
+    }
 
 
 
@@ -105,6 +120,11 @@ public class StarterAssetsInputs : MonoBehaviour
     {
         playerCrafting = newCraftingState;
     }
+    private void LeftClickInput(bool isPressed)
+    {
+        leftClickButton = isPressed;
+    }
+
 
 #if !UNITY_IOS || !UNITY_ANDROID
 

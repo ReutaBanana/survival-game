@@ -32,7 +32,7 @@ public class UIUpdater : MonoBehaviour
     {
         switch (type)
         {
-            case interactionType.Tree:
+            case interactionType.ChopTree:
                 TogglePopup(activeInteraction,_treeInteractionPopup);
                 break;
             case interactionType.StoneCollect:
