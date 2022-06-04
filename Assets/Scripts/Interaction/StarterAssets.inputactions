@@ -38,14 +38,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "OpenInventory",
-                    "type": "Button",
-                    "id": "a77611a5-924b-4f9d-97e5-3f9cc4139f2c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Interact",
                     "type": "Button",
                     "id": "96aaa324-964f-4b36-9c7e-a5035d06271f",
@@ -73,6 +65,46 @@
                     "name": "MousePosition",
                     "type": "Value",
                     "id": "95549f05-6473-4ae1-8cd6-d34240670f30",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "BuildingMenu",
+                    "type": "Button",
+                    "id": "9ff3a7f4-40f3-4026-9d49-1efb1a10e8d9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "CraftingMenu",
+                    "type": "Button",
+                    "id": "7071be15-8cde-48c6-b40b-8b71225d3f73",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "InventoryMenu",
+                    "type": "Button",
+                    "id": "bcfd9436-4504-4c11-b74f-c30ab337c64b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "OpenMenu",
+                    "type": "Button",
+                    "id": "778a6e86-afc8-430a-9cfe-7fab9e09bc82",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ChooseInMenu",
+                    "type": "Value",
+                    "id": "140110ae-5928-49c8-a9d5-e2a0aca70ebd",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
@@ -257,17 +289,6 @@
                 },
                 {
                     "name": "",
-                    "id": "bb3e2036-03e9-4660-a31d-341fc98e669d",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "OpenInventory",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "d4991aee-83b3-40ec-b548-aec60e8b1c23",
                     "path": "<Keyboard>/e",
                     "interactions": "",
@@ -307,6 +328,61 @@
                     "processors": "",
                     "groups": "",
                     "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "baa8751c-cbb3-46ed-952a-d645756d48dd",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e6e1784c-0f6b-4f4e-bda1-bc801a0aa952",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InventoryMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f59f7612-1c8a-4a0a-9ff2-fe52e2657528",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CraftingMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b5b88e04-d8dc-4f3d-8a40-910e6b516439",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BuildingMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6c740042-59c8-4e63-ba8b-d23a2338c36a",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChooseInMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

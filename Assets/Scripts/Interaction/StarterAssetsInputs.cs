@@ -14,12 +14,16 @@ public class StarterAssetsInputs : MonoBehaviour
     public Vector2 move;
     public Vector2 look;
     public Vector2 mousePosition;
+    public Vector2 chooseInMenu;
     public bool jump;
     public bool sprint;
-    public bool openInventory;
+    public bool openUIMenu;
     public bool playerInteract;
     public bool playerCrafting;
     public bool leftClickButton;
+    public bool inventoryUIMenu;
+    public bool craftingUIMenu;
+    public bool buildingUIMenu;
 
     [Header("Movement Settings")]
     public bool analogMovement;
@@ -54,9 +58,9 @@ public class StarterAssetsInputs : MonoBehaviour
         SprintInput(value.isPressed);
     }
 
-    public void OnOpenInventory(InputValue value)
+    public void OnOpenMenu(InputValue value)
     {
-        OpenInventoryInput(value.isPressed);
+        openUIMenu = value.isPressed;
 
     }
 
@@ -78,6 +82,22 @@ public class StarterAssetsInputs : MonoBehaviour
     public void OnMousePosition(InputValue value)
     {
         mousePosition = mainCamera.ScreenToWorldPoint(value.Get<Vector2>());
+    }
+     public void OnBuildingMenu(InputValue value)
+    {
+        buildingUIMenu = value.isPressed;
+    }
+     public void OnCraftingMenu(InputValue value)
+    {
+        craftingUIMenu = value.isPressed;
+    }
+    public void OnInventoryMenu(InputValue value)
+    {
+        inventoryUIMenu = value.isPressed;
+    }
+    public void OnChooseInMenu(InputValue value)
+    {
+        chooseInMenu = value.Get<Vector2>();
     }
 
 
@@ -108,7 +128,7 @@ public class StarterAssetsInputs : MonoBehaviour
     }
     public void OpenInventoryInput(bool newOpenInventoryState)
     {
-        openInventory = newOpenInventoryState;
+        openUIMenu = newOpenInventoryState;
     }
 
     public void InteractInput(bool newInteractState)

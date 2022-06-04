@@ -18,7 +18,7 @@ public class InteractableObject : MonoBehaviour
     [SerializeField] private int desiredAmount;
 
     private int hitCount;
-    private UIUpdater uiScript;
+    private UI_Updater uiScript;
     private InteractionConfiguration InteractionConfiguration;
     private Animator animator;
     private ItemType interactDependeny;
@@ -28,7 +28,7 @@ public class InteractableObject : MonoBehaviour
     {
         InteractionConfiguration = InteractionConfiguration.instance;
         animator = this.GetComponent<Animator>();
-        uiScript = GameObject.Find("Canvas").GetComponent<UIUpdater>();
+        uiScript = GameObject.Find("Canvas").GetComponent<UI_Updater>();
         SetInteractDependency();
     }
     public void Action()

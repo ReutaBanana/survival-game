@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System;
 
-public class UIUpdater : MonoBehaviour
+public class UI_Updater : MonoBehaviour
 {
 
     [SerializeField] private PlayerStatus _playerStatus;

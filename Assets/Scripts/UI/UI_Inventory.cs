@@ -11,35 +11,26 @@ public class UI_Inventory : MonoBehaviour
     [SerializeField] private Transform itemSlotContainer;
     [SerializeField] private Transform itemSlotTemplate;
 
-    [SerializeField] private GameObject inventoryUI;
-    [SerializeField] private PlayerInteraction interaction;
+    private int inventoryLength;
     public void SetInventory (Inventory inventory)
     {
         this.inventory = inventory;
-        interaction.onInventoryClick += ShowInventory;
     }
-
+    private void Start()
+    {
+        inventory.onInventoryChanged += RefreshInventoryItems;
+    }
     private void Update()
     {
-        RefreshInventoryItems();
+        inventoryLength = inventory.inventoryItems.Count;
     }
 
-    private void ShowInventory(bool isOpen)
+  public int GetInventoryLength()
     {
-        switch (isOpen)
-        {            
-            case true:
-                inventoryUI.SetActive(true);
-                break;
-            default:
-            case false:
-                inventoryUI.SetActive(false);
-                break;      
-        }
+        return inventoryLength;
     }
-
-  
-    private void RefreshInventoryItems()
+   
+    public void RefreshInventoryItems()
     {
         foreach (Transform transform in itemSlotContainer)
         {
@@ -49,7 +40,7 @@ public class UI_Inventory : MonoBehaviour
 
         int x = 0;
         int y = 0;
-        float itemSlotCellSize = 100f;
+        float itemSlotCellSize = 115f;
 
         foreach (Item item in inventory.GetInventoryItemsList())
         {
@@ -62,7 +53,7 @@ public class UI_Inventory : MonoBehaviour
 
             x++;
 
-            if(x>3)
+            if(x>=2)
             {
                 x = 0;
                 y--;

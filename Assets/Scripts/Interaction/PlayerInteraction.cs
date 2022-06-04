@@ -4,11 +4,17 @@ using UnityEngine;
 using System;
 using UnityEngine.InputSystem;
 
-
+public enum ScrollLocation
+{
+    Up,
+    Down
+}
 public class PlayerInteraction : MonoBehaviour
 {
     private bool isClicked;
-    public event Action<bool> onInventoryClick;
+    public event Action<bool,int> onMenuClick;
+    public event Action<ScrollLocation> onScrollMenu;
+
 
     private StarterAssetsInputs _input;
     private InteractableObject objectScript;
@@ -33,10 +39,12 @@ public class PlayerInteraction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        OpenInventory();
+        HandleMenu();
         DebugCrafting();
         BuildItems();
         building.CreateWaitingObject();
+
+        CheckScrollPosition();
     }
 
     private void BuildItems()
@@ -57,25 +65,56 @@ public class PlayerInteraction : MonoBehaviour
             _input.playerCrafting = false;
         }
     }
-
-    private void OpenInventory()
+    private void CheckScrollPosition()
     {
-        if (_input.openInventory)
+        if(_input.chooseInMenu.y>0)
         {
+            Debug.Log("ScrollUp");
+            _input.chooseInMenu.y = 0;
+            onScrollMenu?.Invoke(ScrollLocation.Up);
+        }
+        else if(_input.chooseInMenu.y < 0)
+        {
+            Debug.Log("ScrollDown");
+            _input.chooseInMenu.y = 0;
+            onScrollMenu?.Invoke(ScrollLocation.Down);
+        }
+    }
+    private void HandleMenu()
+    {
+        if (_input.openUIMenu)
+        {
+            Debug.Log("Cliked");
             if (!isClicked)
             {
                 isClicked = true;
-                onInventoryClick?.Invoke(true);
-                _input.openInventory = false;
+                onMenuClick?.Invoke(true,0);
+                _input.openUIMenu = false;
             }
             else if (isClicked)
             {
                 isClicked = false;
-                onInventoryClick?.Invoke(false);
-                _input.openInventory = false;
+                onMenuClick?.Invoke(false,0);
+                _input.openUIMenu = false;
             }
 
         }
+        if(_input.inventoryUIMenu)
+        {
+            onMenuClick?.Invoke(true, 1);
+            _input.inventoryUIMenu = false;
+        }
+        if(_input.craftingUIMenu)
+        {
+            onMenuClick?.Invoke(true, 2);
+            _input.craftingUIMenu = false;
+        }
+        if(_input.buildingUIMenu)
+        {
+            onMenuClick?.Invoke(true, 3);
+            _input.buildingUIMenu = false;
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)

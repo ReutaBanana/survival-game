@@ -5,6 +5,8 @@ using System;
 
 public class Inventory
 {
+    public event Action onInventoryChanged;
+
     public List<Item> inventoryItems;
     
     private Dictionary<ItemType, bool> hasUiInventoryInstance = new Dictionary<ItemType, bool>();
@@ -30,6 +32,7 @@ public class Inventory
         {
             CheckIfStackable(item);
         }
+        onInventoryChanged?.Invoke();
     }
 
     public void DestroyUsedToolsInInventory()
@@ -47,6 +50,8 @@ public class Inventory
         {
             inventoryItems.Remove(item);
         }
+      
+
     }
 
     public void RemoveItems(List<Item> recipie)
@@ -71,6 +76,8 @@ public class Inventory
         {
             inventoryItems.Remove(item);
         }
+        onInventoryChanged?.Invoke();
+
     }
 
     public bool CheckIfExsist(Item recipieItem)
@@ -113,7 +120,8 @@ public class Inventory
         {
             inventoryItems.Add(item);
         }
-      
+        onInventoryChanged?.Invoke();
+
     }
 
     public List<Item> GetTools()
