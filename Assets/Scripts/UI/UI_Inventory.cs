@@ -10,6 +10,7 @@ public class UI_Inventory : MonoBehaviour
     private Inventory inventory;
     [SerializeField] private Transform itemSlotContainer;
     [SerializeField] private Transform itemSlotTemplate;
+    private List<Image> chosenImage = new List<Image>();
 
     private int inventoryLength;
     public void SetInventory (Inventory inventory)
@@ -48,6 +49,8 @@ public class UI_Inventory : MonoBehaviour
 
             itemSlotRectTransform.gameObject.SetActive(true);
             itemSlotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y*itemSlotCellSize);
+            chosenImage.Add(itemSlotRectTransform.Find("Choosen").GetComponent<Image>());
+
             Image image =itemSlotRectTransform.Find("Image").GetComponent<Image>();
             image.sprite = item.GetSprite();
 
@@ -68,5 +71,9 @@ public class UI_Inventory : MonoBehaviour
 
             }
         }
+    }
+    public List<Image> GetChosenImage()
+    {
+        return chosenImage;
     }
 }

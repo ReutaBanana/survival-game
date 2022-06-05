@@ -43,7 +43,6 @@ public class PlayerInteraction : MonoBehaviour
         DebugCrafting();
         BuildItems();
         building.CreateWaitingObject();
-
         CheckScrollPosition();
     }
 

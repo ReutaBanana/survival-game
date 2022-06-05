@@ -31,16 +31,15 @@ public class UI_Menu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
+
     }
     private void ScrollMenu(ScrollLocation location)
-    {
-         
+    {  
        if(location==ScrollLocation.Up)
         {
             if(inventoryContinerOpen)
             {
-                Transform inventorySlotContiner = GameObject.Find("itemSlotContainer").GetComponent<Transform>();
                 if (currentPositionInContiner < uiInventoryScript.GetInventoryLength())
                 {
                     currentPositionInContiner++;
@@ -50,35 +49,30 @@ public class UI_Menu : MonoBehaviour
                     currentPositionInContiner = 0;
 
                 }
-                UpdateSelectedPosition(inventorySlotContiner);
+                UpdateSelectedPosition(uiInventoryScript.GetChosenImage());
 
             }
         }
 
     }
-    private void UpdateSelectedPosition(Transform container)
+    private void UpdateSelectedPosition(List<Image> chosenImageList)
     {
-       Transform[] itemTransforms = container.GetComponentsInChildren<Transform>();
-        for (int i = 1; i < itemTransforms.Length; i++)
+        
+        for (int i = 0; i < chosenImageList.Count; i++)
         {
-            Transform uiChoosen = itemTransforms[i].Find("Choosen");
-
             if (i==currentPositionInContiner)
             {
-                uiChoosen.GetComponent<Image>().enabled = true;
+                chosenImageList[i].GetComponent<Image>().enabled = true;
             }
-            uiChoosen.GetComponent<Image>().enabled = false;
+            chosenImageList[i].GetComponent<Image>().enabled = false;
         }
     }
     private void SetFirstChosen()
     {
         if (inventoryContinerOpen)
         {
-            Transform inventorySlotContiner = GameObject.Find("InventoryItemSlotContainer").GetComponent<Transform>();
-            RectTransform[] itemTransforms = inventorySlotContiner.GetComponentsInChildren<RectTransform>();
-            Transform uiChoosen = itemTransforms[1].Find("Choosen");
-            uiChoosen.GetComponent<Image>().enabled = true;
-
+            List<Image> chosenImages = uiInventoryScript.GetChosenImage();
+            chosenImages[1].enabled = true;
         }
     }
     private void ShowMenu(bool isOpen,int menuSlot)
@@ -106,7 +100,7 @@ public class UI_Menu : MonoBehaviour
             craftingContinerOpen = false;
             buildingContinerOpen = false;
             uiInventoryScript.RefreshInventoryItems();
-            SetFirstChosen();
+
         }
                
         if (menuSlot == 2)
@@ -128,7 +122,7 @@ public class UI_Menu : MonoBehaviour
             craftingContinerOpen = false;
             buildingContinerOpen = true;
         }
+        SetFirstChosen();
 
-       
     }
 }

@@ -17,4 +17,8 @@ public class ItemAssets : MonoBehaviour
     public Sprite stoneSprite;
     public Sprite moneySprite;
     public Sprite axeSprite;
+    public Sprite campfireSprite;
+    public Sprite pickaxeSprite;
+
+
 }

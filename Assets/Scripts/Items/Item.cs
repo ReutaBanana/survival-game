@@ -10,7 +10,9 @@ public enum ItemType
     Money,
     Stone,
     //crafted items
-    Axe
+    Axe,
+    Campfire,
+    Pickaxe
 }
 public class Item 
 {
@@ -111,6 +113,12 @@ public class Item
                 return ItemAssets.Instance.stoneSprite;
             case ItemType.Axe:
                 return ItemAssets.Instance.axeSprite;
+            case ItemType.Campfire:
+                return ItemAssets.Instance.campfireSprite;
+            case ItemType.Pickaxe:
+                return ItemAssets.Instance.pickaxeSprite;
+
+
         }
     }
     
