@@ -7,7 +7,8 @@ using UnityEngine.InputSystem;
 public enum ScrollLocation
 {
     Up,
-    Down
+    Down,
+    none
 }
 public class PlayerInteraction : MonoBehaviour
 {
@@ -20,18 +21,34 @@ public class PlayerInteraction : MonoBehaviour
     private InteractableObject objectScript;
     private CraftingAction crafting;
     private InstaniateObjects building;
+    private UI_Menu uiMenuScript;
 
     private PlayerInventory inventory;
     private Item interactTool;
 
+    private bool canBuild;
+    private BuildingRecipeType currentType;
+
     private Animator playerAnimator;
+    private void Start()
+    {
+        uiMenuScript.onBuildingImageStay += UiMenuScript_onBuildingImageStay;
+    }
+
+    private void UiMenuScript_onBuildingImageStay(Recipe obj)
+    {
+        currentType = obj.GetBuildingRecipeType();
+        building.CreateWaitingObject(currentType);
+        canBuild = true;
+
+    }
 
     private void Awake()
     {
         _input = GetComponent<StarterAssetsInputs>();
         crafting = GameObject.Find("GameMananger").GetComponent<CraftingAction>();
         building = GameObject.Find("GameMananger").GetComponent<InstaniateObjects>();
-
+        uiMenuScript = GameObject.Find("Canvas").GetComponent<UI_Menu>();
         inventory = this.GetComponent<PlayerInventory>();
         playerAnimator = this.GetComponent<Animator>();
     }
@@ -42,16 +59,19 @@ public class PlayerInteraction : MonoBehaviour
         HandleMenu();
         DebugCrafting();
         BuildItems();
-        building.CreateWaitingObject();
         CheckScrollPosition();
     }
 
     private void BuildItems()
     {
+
         if (_input.leftClickButton)
         {
-            building.Build();
-            Debug.Log("Build Here");
+            if(canBuild)
+            {
+                building.Build(currentType);
+                canBuild = false;
+            }
             _input.leftClickButton = false;
         }
     }
@@ -68,15 +88,17 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(_input.chooseInMenu.y>0)
         {
-            Debug.Log("ScrollUp");
             _input.chooseInMenu.y = 0;
             onScrollMenu?.Invoke(ScrollLocation.Up);
         }
         else if(_input.chooseInMenu.y < 0)
         {
-            Debug.Log("ScrollDown");
             _input.chooseInMenu.y = 0;
             onScrollMenu?.Invoke(ScrollLocation.Down);
+        }
+        else if (_input.chooseInMenu.y == 0)
+        {
+            onScrollMenu?.Invoke(ScrollLocation.none);
         }
     }
     private void HandleMenu()
@@ -112,6 +134,11 @@ public class PlayerInteraction : MonoBehaviour
         {
             onMenuClick?.Invoke(true, 3);
             _input.buildingUIMenu = false;
+        }
+        if(_input.rightClick)
+        {
+            _input.rightClick = false;
+            onMenuClick?.Invoke(true, -1);
         }
 
     }

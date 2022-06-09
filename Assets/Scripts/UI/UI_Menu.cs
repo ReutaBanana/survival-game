@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class UI_Menu : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class UI_Menu : MonoBehaviour
     [SerializeField] private GameObject buildingContiner;
 
     private UI_Inventory uiInventoryScript;
+    private UI_Crafting uiCraftingScript;
+    private UI_Building uiBuildingScript;
+
 
     private bool inventoryContinerOpen;
     private bool craftingContinerOpen;
@@ -20,61 +24,48 @@ public class UI_Menu : MonoBehaviour
 
     private int currentPositionInContiner = 1;
 
+    public event Action<Recipe> onBuildingImageStay;
     // Start is called before the first frame update
     void Start()
     {
         interaction.onMenuClick += ShowMenu;
         interaction.onScrollMenu += ScrollMenu;
         uiInventoryScript = inventoryContiner.GetComponent<UI_Inventory>();
+        uiCraftingScript = craftingContiner.GetComponent<UI_Crafting>();
+        uiBuildingScript = buildingContiner.GetComponent<UI_Building>();
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-       
-
+        if(uiBuildingScript.ReturnIfChoosenFor5Sec()!=null)
+        {
+            onBuildingImageStay?.Invoke(uiBuildingScript.GetRecipeNeeded(uiBuildingScript.ReturnIfChoosenFor5Sec()));
+        }
     }
+
     private void ScrollMenu(ScrollLocation location)
     {  
        if(location==ScrollLocation.Up)
         {
-            if(inventoryContinerOpen)
-            {
-                if (currentPositionInContiner < uiInventoryScript.GetInventoryLength())
-                {
-                    currentPositionInContiner++;
-                }
-                else
-                {
-                    currentPositionInContiner = 0;
-
-                }
-                UpdateSelectedPosition(uiInventoryScript.GetChosenImage());
-
-            }
+            currentPositionInContiner++;
+            SetChosenImageToAllContainers();
         }
-
-    }
-    private void UpdateSelectedPosition(List<Image> chosenImageList)
-    {
-        
-        for (int i = 0; i < chosenImageList.Count; i++)
+        if (location == ScrollLocation.Down)
         {
-            if (i==currentPositionInContiner)
-            {
-                chosenImageList[i].GetComponent<Image>().enabled = true;
-            }
-            chosenImageList[i].GetComponent<Image>().enabled = false;
+            currentPositionInContiner--;
+            SetChosenImageToAllContainers();
         }
     }
-    private void SetFirstChosen()
+
+    private void SetChosenImageToAllContainers()
     {
         if (inventoryContinerOpen)
-        {
-            List<Image> chosenImages = uiInventoryScript.GetChosenImage();
-            chosenImages[1].enabled = true;
-        }
+            uiInventoryScript.SetImageChoosen(currentPositionInContiner);
+        if (craftingContinerOpen)
+            uiCraftingScript.SetImageChoosen(currentPositionInContiner);
+        if (buildingContinerOpen)
+            uiBuildingScript.SetImageChoosen(currentPositionInContiner);
     }
+
     private void ShowMenu(bool isOpen,int menuSlot)
     {
         if(menuSlot==0)
@@ -100,7 +91,6 @@ public class UI_Menu : MonoBehaviour
             craftingContinerOpen = false;
             buildingContinerOpen = false;
             uiInventoryScript.RefreshInventoryItems();
-
         }
                
         if (menuSlot == 2)
@@ -122,7 +112,10 @@ public class UI_Menu : MonoBehaviour
             craftingContinerOpen = false;
             buildingContinerOpen = true;
         }
-        SetFirstChosen();
-
+        if(menuSlot == -1)
+        {
+            if (inventoryContinerOpen)
+                uiInventoryScript.clearChoosen();
+        }
     }
 }

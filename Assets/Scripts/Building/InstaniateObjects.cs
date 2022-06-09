@@ -5,8 +5,7 @@ using UnityEngine.InputSystem;
 
 public class InstaniateObjects : MonoBehaviour
 {
-    [SerializeField]private GameObject testObject;
-    [SerializeField]private GameObject testObjectWaiting;
+  
     [SerializeField] private Camera mainCamera;
 
     private GameObject objectWaitingPrefab;
@@ -22,16 +21,17 @@ public class InstaniateObjects : MonoBehaviour
     {
         
     }
-    public void Build()
+    public void Build(BuildingRecipeType type)
     {
         Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit hit;
         if (Physics.Raycast(ray,out hit))
         {
-            Instantiate(testObject, hit.point, Quaternion.identity);
+            
+            Instantiate(BuildingAssets.instance.getGameobject(type), hit.point, Quaternion.identity);
         }
     }
-    public void CreateWaitingObject()
+    public void CreateWaitingObject(BuildingRecipeType type)
     {
         Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit hit;
@@ -39,7 +39,7 @@ public class InstaniateObjects : MonoBehaviour
         {
             if(!hasInstaniate)
             {
-                objectWaitingPrefab = Instantiate(testObjectWaiting, hit.point, Quaternion.identity);
+                objectWaitingPrefab = Instantiate(BuildingAssets.instance.getWaitingGameobject(type), hit.point, Quaternion.identity);
                 hasInstaniate = true;
             }
             else

@@ -9,6 +9,9 @@ public class UI_Crafting : MonoBehaviour
     [SerializeField] private Transform itemSlotTemplate;
 
     private List<Image> chosenImage = new List<Image>();
+    private int currentChosenPosition;
+
+
     private void Awake()
     {
         Debug.Log(CraftingRecipes.instance.GetAllRecipes().Count);
@@ -50,5 +53,35 @@ public class UI_Crafting : MonoBehaviour
     public List<Image> GetChosenImage()
     {
         return chosenImage;
+    }
+    public void SetImageChoosen(int position)
+    {
+        if (chosenImage.Count > 0)
+        {
+            currentChosenPosition = position % chosenImage.Count;
+            for (int i = 0; i < chosenImage.Count; i++)
+            {
+                if (i == currentChosenPosition)
+                {
+                    chosenImage[i].enabled = true;
+                }
+                else
+                {
+                    chosenImage[i].enabled = false;
+                }
+            }
+        }
+    }
+
+    internal void clearChoosen()
+    {
+        if (chosenImage.Count > 0)
+        {
+            for (int i = 0; i < chosenImage.Count; i++)
+            {
+                chosenImage[i].enabled = false;
+            }
+        }
+
     }
 }

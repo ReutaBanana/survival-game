@@ -24,6 +24,7 @@ public class StarterAssetsInputs : MonoBehaviour
     public bool inventoryUIMenu;
     public bool craftingUIMenu;
     public bool buildingUIMenu;
+    public bool rightClick;
 
     [Header("Movement Settings")]
     public bool analogMovement;
@@ -100,6 +101,10 @@ public class StarterAssetsInputs : MonoBehaviour
         chooseInMenu = value.Get<Vector2>();
     }
 
+    public void OnRightClick(InputValue value)
+    {
+        rightClick = value.isPressed;
+    }
 
 
 #else

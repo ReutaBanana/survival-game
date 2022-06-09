@@ -49,6 +49,10 @@ public class BuildingRecipes : MonoBehaviour
                 return null;
         }
     }
+    public List<Recipe> GetAllRecipes()
+    {
+        return recipes;
+    }
 
     public Item GetBuiltItem(BuildingRecipeType recepieType)
     {
