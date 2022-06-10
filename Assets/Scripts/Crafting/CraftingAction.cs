@@ -30,7 +30,7 @@ public class CraftingAction : MonoBehaviour
         else
         {
             _playerInventory.GetInventory().RemoveItems(recipe);
-            _playerInventory.GetInventory().AddItem(craftingRecipes.GetCraftedItem(recipieType));
+            _playerInventory.GetInventory().AddItem(new Item(craftingRecipes.GetCraftedItem(recipieType).type,1));
             Debug.Log("Crafted" + recipieType.ToString());
         }
 

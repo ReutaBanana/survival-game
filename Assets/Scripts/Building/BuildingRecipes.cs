@@ -70,4 +70,8 @@ public class BuildingRecipes : MonoBehaviour
         }
         return null;
     }
+    public Item GetCraftedItem(BuildingRecipeType recepieType)
+    {
+        return GetRecipeByType(recepieType).GetOutputItem();
+    }
 }

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemAssets : MonoBehaviour
+public class InventoryItemAssets : MonoBehaviour
 {
-   public static ItemAssets Instance { get; private set; }
+   public static InventoryItemAssets Instance { get; private set; }
     private void Awake()
     {
         Instance = this;
@@ -12,13 +12,18 @@ public class ItemAssets : MonoBehaviour
 
     public Transform pfItemWorld;
 
+    [Header("Items")]
     public Sprite woodSprite;
     public Sprite fruitSprite;
     public Sprite stoneSprite;
     public Sprite moneySprite;
+    
+    [Header("Crafting")]
     public Sprite axeSprite;
-    public Sprite campfireSprite;
     public Sprite pickaxeSprite;
+
+    [Header("Building")]
+    public Sprite campfireSprite;
 
 
 }

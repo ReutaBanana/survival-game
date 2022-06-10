@@ -10,7 +10,6 @@ public class UI_Inventory : MonoBehaviour
     private Inventory inventory;
     [SerializeField] private Transform itemSlotContainer;
     [SerializeField] private Transform itemSlotTemplate;
-    private List<Image> chosenImage = new List<Image>();
 
     private int inventoryLength;
     private int currentChosenPosition;
@@ -25,6 +24,7 @@ public class UI_Inventory : MonoBehaviour
     private void Update()
     {
         inventoryLength = inventory.inventoryItems.Count;
+
     }
 
   public int GetInventoryLength()
@@ -34,7 +34,6 @@ public class UI_Inventory : MonoBehaviour
 
     public void RefreshInventoryItems()
     {
-        chosenImage.Clear();
         foreach (Transform transform in itemSlotContainer)
         {
             if (transform == itemSlotTemplate) continue;
@@ -51,63 +50,22 @@ public class UI_Inventory : MonoBehaviour
 
             itemSlotRectTransform.gameObject.SetActive(true);
             itemSlotRectTransform.anchoredPosition = new Vector2(x * itemSlotCellSize, y * itemSlotCellSize);
-            chosenImage.Add(itemSlotRectTransform.Find("Choosen").GetComponent<Image>());
-
             Image image = itemSlotRectTransform.Find("Image").GetComponent<Image>();
             image.sprite = item.GetSprite();
 
             x++;
 
-            if (x >= 2)
+            if (x >= 25)
             {
-                x = 0;
-                y--;
+              
             }
 
             if (item.GetIsStackable() && item.amount > 1)
             {
-                Transform uiStackable = itemSlotRectTransform.Find("objectCount");
-                uiStackable.GetComponent<Image>().enabled = true;
-                uiStackable.Find("objectCountTxt").GetComponent<TextMeshProUGUI>().text = item.amount.ToString();
-                uiStackable.Find("objectCountTxt").GetComponent<TextMeshProUGUI>().enabled = true;
+                itemSlotRectTransform.Find("objectCountTxt").GetComponent<TextMeshProUGUI>().text = item.amount.ToString();
+                itemSlotRectTransform.Find("objectCountTxt").GetComponent<TextMeshProUGUI>().enabled = true;
 
             }
         }
-        if (chosenImage.Count > 0)  
-        { chosenImage[currentChosenPosition].enabled = true; }
-    }
-    public List<Image> GetChosenImage()
-    {
-        return chosenImage;
-    }
-    public void SetImageChoosen(int position)
-    {
-        if (chosenImage.Count>0)
-        {
-            currentChosenPosition = position % chosenImage.Count;
-            for (int i = 0; i < chosenImage.Count; i++)
-            {
-                if(i== currentChosenPosition)
-                {
-                    chosenImage[i].enabled = true;
-                }
-                else
-                {
-                    chosenImage[i].enabled = false;
-                }
-            }
-        }
-    }
-
-    internal void clearChoosen()
-    {
-        if(chosenImage.Count>0)
-        {
-            for (int i = 0; i < chosenImage.Count; i++)
-            { 
-                chosenImage[i].enabled = false;
-            }
-        }
-       
     }
 }

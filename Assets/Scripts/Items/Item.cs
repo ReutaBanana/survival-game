@@ -104,19 +104,19 @@ public class Item
         {
             default:
             case ItemType.Wood:
-                return ItemAssets.Instance.woodSprite;
+                return InventoryItemAssets.Instance.woodSprite;
             case ItemType.Fruit:
-                return ItemAssets.Instance.fruitSprite;
+                return InventoryItemAssets.Instance.fruitSprite;
             case ItemType.Money:
-                return ItemAssets.Instance.moneySprite;
+                return InventoryItemAssets.Instance.moneySprite;
             case ItemType.Stone:
-                return ItemAssets.Instance.stoneSprite;
+                return InventoryItemAssets.Instance.stoneSprite;
             case ItemType.Axe:
-                return ItemAssets.Instance.axeSprite;
+                return InventoryItemAssets.Instance.axeSprite;
             case ItemType.Campfire:
-                return ItemAssets.Instance.campfireSprite;
+                return InventoryItemAssets.Instance.campfireSprite;
             case ItemType.Pickaxe:
-                return ItemAssets.Instance.pickaxeSprite;
+                return InventoryItemAssets.Instance.pickaxeSprite;
 
 
         }

@@ -7,8 +7,7 @@ using UnityEngine.InputSystem;
 public enum ScrollLocation
 {
     Up,
-    Down,
-    none
+    Down
 }
 public class PlayerInteraction : MonoBehaviour
 {
@@ -27,20 +26,30 @@ public class PlayerInteraction : MonoBehaviour
     private Item interactTool;
 
     private bool canBuild;
-    private BuildingRecipeType currentType;
+    private bool canCraft;
+    private BuildingRecipeType currentBuildingType;
+    private CraftingRecepieType currentCraftingType;
 
     private Animator playerAnimator;
     private void Start()
     {
-        uiMenuScript.onBuildingImageStay += UiMenuScript_onBuildingImageStay;
+        uiMenuScript.onImageStayEvent += UiMenuScript_onBuildingImageStay;
     }
 
-    private void UiMenuScript_onBuildingImageStay(Recipe obj)
+    private void UiMenuScript_onBuildingImageStay(Recipe obj, string type)
     {
-        currentType = obj.GetBuildingRecipeType();
-        building.CreateWaitingObject(currentType);
-        canBuild = true;
-
+        if (type == "Build")
+        {
+            currentBuildingType = obj.GetBuildingRecipeType();
+            building.CreateWaitingObject(currentBuildingType);
+            canBuild = true;
+        }
+        if (type == "Craft")
+        {
+            Debug.Log("i am here");
+            currentCraftingType= obj.GetCraftingRecipeType();
+            canCraft = true;
+        }
     }
 
     private void Awake()
@@ -60,6 +69,19 @@ public class PlayerInteraction : MonoBehaviour
         DebugCrafting();
         BuildItems();
         CheckScrollPosition();
+        CheckCancel();
+    }
+
+    private void CheckCancel()
+    {
+        if (_input.rightClick)
+        {
+            building.ClearBuilding();
+            canBuild = false;
+            canCraft = false;
+            _input.rightClick = false;
+            onMenuClick?.Invoke(true, -1);
+        }
     }
 
     private void BuildItems()
@@ -69,8 +91,13 @@ public class PlayerInteraction : MonoBehaviour
         {
             if(canBuild)
             {
-                building.Build(currentType);
+                building.Build(currentBuildingType);
                 canBuild = false;
+            }
+            if(canCraft)
+            {
+                crafting.Craft(currentCraftingType);
+                canCraft = false;
             }
             _input.leftClickButton = false;
         }
@@ -78,11 +105,11 @@ public class PlayerInteraction : MonoBehaviour
 
     private void DebugCrafting()
     {
-        if (_input.playerCrafting)
-        {
-            crafting.Craft(CraftingRecepieType.AxeRecipe);
-            _input.playerCrafting = false;
-        }
+        //if (_input.playerCrafting)
+        //{
+        //    crafting.Craft(CraftingRecepieType.AxeRecipe);
+        //    _input.playerCrafting = false;
+        //}
     }
     private void CheckScrollPosition()
     {
@@ -95,10 +122,6 @@ public class PlayerInteraction : MonoBehaviour
         {
             _input.chooseInMenu.y = 0;
             onScrollMenu?.Invoke(ScrollLocation.Down);
-        }
-        else if (_input.chooseInMenu.y == 0)
-        {
-            onScrollMenu?.Invoke(ScrollLocation.none);
         }
     }
     private void HandleMenu()
@@ -116,6 +139,8 @@ public class PlayerInteraction : MonoBehaviour
             {
                 isClicked = false;
                 onMenuClick?.Invoke(false,0);
+                canBuild = false;
+                canCraft = false;
                 _input.openUIMenu = false;
             }
 
@@ -135,12 +160,6 @@ public class PlayerInteraction : MonoBehaviour
             onMenuClick?.Invoke(true, 3);
             _input.buildingUIMenu = false;
         }
-        if(_input.rightClick)
-        {
-            _input.rightClick = false;
-            onMenuClick?.Invoke(true, -1);
-        }
-
     }
 
     private void OnTriggerEnter(Collider other)

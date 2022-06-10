@@ -5,31 +5,39 @@ using UnityEngine.InputSystem;
 
 public class InstaniateObjects : MonoBehaviour
 {
-  
+    public PlayerInventory _playerInventory;
+
     [SerializeField] private Camera mainCamera;
 
     private GameObject objectWaitingPrefab;
 
     private bool hasInstaniate;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void Build(BuildingRecipeType type)
     {
-        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        RaycastHit hit;
-        if (Physics.Raycast(ray,out hit))
+        List<Item> recipe = BuildingRecipes.instance.GetRecipie(type);
+
+        List<bool> validateResult = new List<bool>();
+        foreach (Item recipeItem in recipe)
         {
-            
-            Instantiate(BuildingAssets.instance.getGameobject(type), hit.point, Quaternion.identity);
+            validateResult.Add(ValidateRecipieItem(recipeItem));
         }
+
+        if (validateResult.Contains(false))
+        {
+            Debug.Log("not enough");
+        }
+        else
+        {
+            _playerInventory.GetInventory().RemoveItems(recipe);
+            Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                Instantiate(BuildingAssets.instance.getGameobject(type), hit.point, Quaternion.identity);
+            }
+        }
+      
     }
     public void CreateWaitingObject(BuildingRecipeType type)
     {
@@ -49,5 +57,15 @@ public class InstaniateObjects : MonoBehaviour
             }
 
         }
+    }
+    private bool ValidateRecipieItem(Item recipeItem)
+    {
+        return (_playerInventory.GetInventory().CheckIfExsist(recipeItem));
+    }
+
+    public void ClearBuilding()
+    {
+        Destroy(objectWaitingPrefab);
+
     }
 }

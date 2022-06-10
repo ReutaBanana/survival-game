@@ -46,9 +46,11 @@ public class Inventory
                 removedItems.Add(item);
             }
         }
+      
         foreach (Item item in removedItems)
         {
             inventoryItems.Remove(item);
+            onInventoryChanged?.Invoke();
         }
       
 

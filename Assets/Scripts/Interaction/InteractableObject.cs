@@ -16,10 +16,12 @@ public class InteractableObject : MonoBehaviour
 {
     [SerializeField] private interactionType type;
     [SerializeField] private int desiredAmount;
+    [SerializeField] private int configurationHitCount;
 
     private int hitCount;
     private UI_Updater uiScript;
     private InteractionConfiguration InteractionConfiguration;
+    private PlayerInventory playerInventory;
     private Animator animator;
     private ItemType interactDependeny;
     private bool isInteractDependeny;
@@ -29,6 +31,7 @@ public class InteractableObject : MonoBehaviour
         InteractionConfiguration = InteractionConfiguration.instance;
         animator = this.GetComponent<Animator>();
         uiScript = GameObject.Find("Canvas").GetComponent<UI_Updater>();
+        playerInventory = GameObject.Find("Player").GetComponent<PlayerInventory>();
         SetInteractDependency();
     }
     public void Action()
@@ -39,7 +42,9 @@ public class InteractableObject : MonoBehaviour
                 InstantiatePrefab(InteractionConfiguration.woodPrefab);
                 break;
             case interactionType.StoneCollect:
-                InstantiatePrefab(InteractionConfiguration.stonePrefab);
+                playerInventory.GetInventory().AddItem(new Item(ItemType.Stone, desiredAmount));
+                this.transform.position = (new Vector3(0, -100));
+                Destroy(this.gameObject, 30);
                 break;
             case interactionType.StoneDig:
                 InstantiatePrefab(InteractionConfiguration.stonePrefab);
@@ -126,14 +131,14 @@ public class InteractableObject : MonoBehaviour
             case interactionType.ChopTree:
                 hitCount++;
                 animator.SetBool("isHit", true);
-                CheckForAction(InteractionConfiguration.woodHitCount);
+                CheckForAction(configurationHitCount);
                 break;
             case interactionType.StoneCollect:
                 Action();
                 break;
             case interactionType.StoneDig:
                 hitCount++;
-                CheckForAction(InteractionConfiguration.stoneHitCount);
+                CheckForAction(configurationHitCount);
                 break;
             case interactionType.LightCamfire:
                 Action();
