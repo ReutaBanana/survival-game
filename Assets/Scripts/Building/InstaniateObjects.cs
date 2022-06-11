@@ -66,6 +66,7 @@ public class InstaniateObjects : MonoBehaviour
     public void ClearBuilding()
     {
         Destroy(objectWaitingPrefab);
+        hasInstaniate = false;
 
     }
 }

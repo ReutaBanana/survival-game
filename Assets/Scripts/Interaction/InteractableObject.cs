@@ -172,4 +172,8 @@ public class InteractableObject : MonoBehaviour
     {
         return isInteractDependeny;
     }
+    public interactionType GetInteractableType()
+    {
+        return type;
+    }
 }

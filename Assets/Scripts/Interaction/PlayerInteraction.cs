@@ -46,7 +46,6 @@ public class PlayerInteraction : MonoBehaviour
         }
         if (type == "Craft")
         {
-            Debug.Log("i am here");
             currentCraftingType= obj.GetCraftingRecipeType();
             canCraft = true;
         }
@@ -190,7 +189,18 @@ public class PlayerInteraction : MonoBehaviour
                 if (WantsToInteract())
                 {
                     objectScript.Interact();
-                    playerAnimator.SetTrigger("ChopTree");
+                    if(objectScript.GetInteractableType()==interactionType.ChopTree)
+                    {
+                        playerAnimator.SetTrigger("ChopTree");
+                    }
+
+                    if (objectScript.GetInteractableType() == interactionType.StoneCollect)
+                    {
+                        playerAnimator.SetTrigger("StoneCollect");
+
+                    }
+
+
                     if (interactTool != null)
                         interactTool.DecreseDurability();
                 }
