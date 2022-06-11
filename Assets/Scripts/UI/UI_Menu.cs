@@ -86,6 +86,7 @@ public class UI_Menu : MonoBehaviour
             buildingContiner.SetActive(false);
             craftingContinerOpen = true;
             buildingContinerOpen = false;
+            uiBuildingScript.clearChoosen();
         }
              
         if (menuSlot == 3)
@@ -94,6 +95,7 @@ public class UI_Menu : MonoBehaviour
             buildingContiner.SetActive(true);
             craftingContinerOpen = false;
             buildingContinerOpen = true;
+            uiCraftingScript.clearChoosen();
         }
         if(menuSlot == -1)
         {
